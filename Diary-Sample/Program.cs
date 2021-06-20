@@ -3,6 +3,8 @@
 // Copyright (c) 1-system-group. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
+using Diary_Sample.Entities;
+using Diary_Sample.Infra;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
@@ -12,7 +14,10 @@ namespace Diary_Sample
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            CreateHostBuilder(args)
+                .Build()
+                .MigrateDatabase<DiarySampleContext>()
+                .Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args)

@@ -18,13 +18,11 @@ jobs:
       - name: db startup
         run: docker-compose -f Diary-Sample/docker-compose.yml up -d
       - name: app build
-        run: docker build -f Diary-Sample/Dockerfile -t diary_sample_app_1 Diary-Sample/..
+        run: docker build -f Diary-Sample/Dockerfile -t diary_sample_app_1 Diary-Sample/.
       - name: app startup
         run: docker run -d --name diary_sample_app_1 --network diary-sample_default -p 80:80 diary_sample_app_1
       - name: Entity Framework Core CLI Tool install
         run: dotnet tool install --global dotnet-ef --version 3.1.8
-      - name: db migrate
-        run: dotnet ef database update --project Diary-Sample
       - name: Install Cypress and run tests
         uses: cypress-io/github-action@v2
         with:

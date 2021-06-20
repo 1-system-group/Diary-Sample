@@ -3,6 +3,7 @@
 // Copyright (c) 1-system-group. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
+using System;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -21,6 +22,11 @@ namespace Diary_Sample.Entities
         }
 
         public static readonly ILoggerFactory MySQLLoggerFactory = LoggerFactory.Create(builder => { builder.AddConsole(); });
+        public static string getDBConnectionString(IConfiguration configuration)
+        {
+            var jawsDbUrl = Environment.GetEnvironmentVariable("JAWSDB_URL");
+            return string.IsNullOrEmpty(jawsDbUrl) ? configuration.GetConnectionString("DbConnectionString") : jawsDbUrl;
+        }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (optionsBuilder == null)
@@ -31,7 +37,7 @@ namespace Diary_Sample.Entities
             {
                 optionsBuilder
                 .UseLoggerFactory(MySQLLoggerFactory)
-                .UseMySQL(_config.GetConnectionString("DbConnectionString"));
+                .UseMySQL(getDBConnectionString(_config));
             }
         }
     }

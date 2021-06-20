@@ -2,21 +2,15 @@
 
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-buster-slim AS base
 WORKDIR /app
-EXPOSE 80
-EXPOSE 443
 
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
-WORKDIR /src
-COPY ["Diary-Sample/Diary-Sample.csproj", "Diary-Sample/"]
-RUN dotnet restore "Diary-Sample/Diary-Sample.csproj"
-COPY . .
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS publish
 WORKDIR "/src/Diary-Sample"
+COPY . .
 RUN dotnet build "Diary-Sample.csproj" -c Release -o /app/build
 
-FROM build AS publish
 RUN dotnet publish "Diary-Sample.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Diary-Sample.dll"]
+CMD ASPNETCORE_URLS=http://*:$PORT dotnet Diary-Sample.dll

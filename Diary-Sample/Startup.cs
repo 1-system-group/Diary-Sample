@@ -18,6 +18,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using StackExchange.Redis;
+using static Diary_Sample.Entities.DiarySampleContext;
 
 namespace Diary_Sample
 {
@@ -56,9 +57,9 @@ namespace Diary_Sample
                 services.AddSingleton<IEmailSender, EmailSenderLocal>();
             }
 
+            var jawsDb = Environment.GetEnvironmentVariable("JAWSDB_URL");
             services.AddDbContext<DiarySampleContext>(options =>
-                        options.UseMySQL(
-                            Configuration.GetConnectionString("DbConnectionString")));
+                options.UseMySQL(getDBConnectionString(Configuration)));
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
              .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<DiarySampleContext>()
@@ -69,7 +70,10 @@ namespace Diary_Sample
             });
 
             // Redis
-            services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(Configuration.GetConnectionString("SessionConnectionString")));
+            var redis = Environment.GetEnvironmentVariable("REDIS_URL");
+            services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(
+                string.IsNullOrEmpty(redis) ? Configuration.GetConnectionString("SessionConnectionString")
+                : redis));
             services.AddScoped<RedisTicketStore>();
             services.AddDataProtection()
                     .SetApplicationName("Diary_Sample.Infra")
