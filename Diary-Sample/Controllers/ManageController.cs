@@ -13,7 +13,7 @@ using Microsoft.Extensions.Logging;
 using static Diary_Sample.Common.ResultType;
 namespace Diary_Sample.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "manager")]
     public class ManageController : Controller
     {
         private readonly UserManager<IdentityUser> _userManager;

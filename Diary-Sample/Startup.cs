@@ -84,6 +84,8 @@ namespace Diary_Sample
                 // options.AccessDeniedPath = "/Auth/AccessDenied";
                 // 認証されていないユーザーがリソースにアクセスしようとしたときにリダイレクトする相対パス
                 options.LoginPath = "/Auth/Unauthorized";
+                // 権限のないユーザがリソースにアクセスしようとしたときにリダイレクトする相対パス
+                options.AccessDeniedPath = "/Auth/AccessDenied";
                 // HTTPのみでCookieを使用。（クライアント側のスクリプトでCookieにアクセスさせない）
                 options.Cookie.HttpOnly = true;
                 // 次回から自動ログインするを指定した際のCookie保存期間。指定しない場合の保存期間はセッション（ブラウザを閉じるまで）

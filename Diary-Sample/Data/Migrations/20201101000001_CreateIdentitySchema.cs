@@ -227,6 +227,36 @@ namespace Diary_Sample.Data.Migrations
                     0
                 );
             ");
+
+            // ロール追加
+            migrationBuilder.Sql(
+            @"
+                INSERT INTO `AspNetRoles` (
+                    `Id`,
+                    `Name`,
+                    `NormalizedName`,
+                    `ConcurrencyStamp`
+                ) VALUES
+                (
+                    '1d91d3fa-d7fe-11eb-9687-0242ac170003',
+                    'manager',
+                    'manager',
+                    now()
+                );
+            ");
+
+            // ユーザロール追加
+            migrationBuilder.Sql(
+            @"
+                INSERT INTO `AspNetUserRoles` (
+                    `UserId`,
+                    `RoleId`
+                ) VALUES
+                (
+                    '68f6d9e0-8f99-4bcd-9d0d-a92065e06676',
+                    '1d91d3fa-d7fe-11eb-9687-0242ac170003'
+                );
+            ");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
