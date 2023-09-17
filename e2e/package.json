@@ -11,7 +11,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "cypress": "4.12.1",
+    "cypress": "13.2.0",
     "reg-keygen-git-hash-plugin": "^0.10.8",
     "reg-notify-github-plugin": "^0.10.8",
     "reg-publish-s3-plugin": "^0.10.8",
