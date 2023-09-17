@@ -1,13 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
+// -----------------------------------------------------------------------
+// <copyright file="ReferServiceTest.cs" company="1-system-group">
+// Copyright (c) 1-system-group. All rights reserved.
+// </copyright>
+// -----------------------------------------------------------------------
 using Diary_Sample.Entities;
 using Diary_Sample.Models;
 using Diary_Sample.Repositories;
 using Diary_Sample.Services;
 using Microsoft.Extensions.Logging;
-using Moq;
-using Xunit;
 
 namespace Diary_Sample_Test.Services
 {

@@ -3,34 +3,30 @@
 // Copyright (c) 1-system-group. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
-using System;
-using System.ComponentModel.DataAnnotations.Schema;
+namespace Diary_Sample.Entities;
 
-namespace Diary_Sample.Entities
+[Table("diary")]
+public class Diary
 {
-    [Table("diary")]
-    public class Diary
+    public Diary(string title, string content)
     {
-        public Diary(string title, string content)
-        {
-            this.title = title;
-            this.content = content;
-            post_date = DateTime.Now;
-            update_date = DateTime.Now;
-        }
-
-        public Diary(int id, string title, string content)
-        {
-            this.id = id;
-            this.title = title;
-            this.content = content;
-            update_date = DateTime.Now;
-        }
-
-        public int id { get; set; }
-        public string title { get; set; }
-        public string content { get; set; }
-        public DateTime post_date { get; set; }
-        public DateTime update_date { get; set; }
+        this.title = title;
+        this.content = content;
+        post_date = DateTime.Now;
+        update_date = DateTime.Now;
     }
+
+    public Diary(int id, string title, string content)
+    {
+        this.id = id;
+        this.title = title;
+        this.content = content;
+        update_date = DateTime.Now;
+    }
+
+    public int id { get; set; }
+    public string title { get; set; }
+    public string content { get; set; }
+    public DateTime post_date { get; set; }
+    public DateTime update_date { get; set; }
 }

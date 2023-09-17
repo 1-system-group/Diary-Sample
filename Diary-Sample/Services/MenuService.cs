@@ -3,43 +3,39 @@
 // Copyright (c) 1-system-group. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
-
-using System.Linq;
 using Diary_Sample.Models;
-using Diary_Sample.Repositories;
 using Microsoft.Extensions.Logging;
 
-namespace Diary_Sample.Services
+namespace Diary_Sample.Services;
+
+public class MenuService : IMenuService
 {
-    public class MenuService : IMenuService
+    private const int InitialPage = 1;
+    private readonly ILogger<MenuService> _logger;
+    private readonly ISharedService _service;
+
+    public MenuService(ILogger<MenuService> logger, ISharedService service)
     {
-        private const int InitialPage = 1;
-        private readonly ILogger<MenuService> _logger;
-        private readonly ISharedService _service;
+        _logger = logger;
+        _service = service;
+    }
 
-        public MenuService(ILogger<MenuService> logger, ISharedService service)
-        {
-            _logger = logger;
-            _service = service;
-        }
+    public MenuViewModel Index(string notification)
+    {
+        return createModel(InitialPage, notification);
+    }
 
-        public MenuViewModel Index(string notification)
-        {
-            return createModel(InitialPage, notification);
-        }
+    public MenuViewModel Paging(int page)
+    {
+        return createModel(page, string.Empty);
+    }
 
-        public MenuViewModel Paging(int page)
-        {
-            return createModel(page, string.Empty);
-        }
-
-        private MenuViewModel createModel(int page, string notification)
-        {
-            return new MenuViewModel(
-                _service.Lists(page, MenuViewModel.PageCount),
-                _service.Counts(),
-                page,
-                notification);
-        }
+    private MenuViewModel createModel(int page, string notification)
+    {
+        return new MenuViewModel(
+            _service.Lists(page, MenuViewModel.PageCount),
+            _service.Counts(),
+            page,
+            notification);
     }
 }

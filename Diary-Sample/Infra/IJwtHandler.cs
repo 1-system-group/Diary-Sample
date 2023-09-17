@@ -1,9 +1,11 @@
-using System.Collections.Generic;
+// -----------------------------------------------------------------------
+// <copyright file="IJwtHandler.cs" company="1-system-group">
+// Copyright (c) 1-system-group. All rights reserved.
+// </copyright>
+// -----------------------------------------------------------------------
+namespace Diary_Sample.Infra;
 
-namespace Diary_Sample.Infra
+public interface IJwtHandler
 {
-    public interface IJwtHandler
-    {
-        public string GenerateEncodedToken(string userName, string deviceId, IList<string> roles);
-    }
+    public string GenerateEncodedToken(string userName, string deviceId, IList<string> roles);
 }

@@ -5,11 +5,10 @@
 // -----------------------------------------------------------------------
 using Diary_Sample.Models;
 
-namespace Diary_Sample.Services
+namespace Diary_Sample.Services;
+
+public interface ICreateService
 {
-    public interface ICreateService
-    {
-        public CreateViewModel Index();
-        public bool Create(CreateViewModel model);
-    }
+    public CreateViewModel Index();
+    public bool Create(CreateViewModel model);
 }

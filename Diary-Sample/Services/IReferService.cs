@@ -3,13 +3,11 @@
 // Copyright (c) 1-system-group. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
-
 using Diary_Sample.Models;
 
-namespace Diary_Sample.Services
+namespace Diary_Sample.Services;
+
+public interface IReferService
 {
-    public interface IReferService
-    {
-        public ReferViewModel? GetDiary(int id);
-    }
+    public ReferViewModel? GetDiary(int id);
 }

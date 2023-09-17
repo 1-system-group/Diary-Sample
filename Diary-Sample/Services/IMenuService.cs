@@ -5,11 +5,10 @@
 // -----------------------------------------------------------------------
 using Diary_Sample.Models;
 
-namespace Diary_Sample.Services
+namespace Diary_Sample.Services;
+
+public interface IMenuService
 {
-    public interface IMenuService
-    {
-        public MenuViewModel Index(string notification);
-        public MenuViewModel Paging(int page);
-    }
+    public MenuViewModel Index(string notification);
+    public MenuViewModel Paging(int page);
 }

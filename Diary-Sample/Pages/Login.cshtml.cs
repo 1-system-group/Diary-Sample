@@ -3,8 +3,6 @@
 // Copyright (c) 1-system-group. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
-using System.ComponentModel.DataAnnotations;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;

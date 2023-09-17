@@ -3,12 +3,9 @@
 // Copyright (c) 1-system-group. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
-using System.Threading.Tasks;
+namespace Diary_Sample.Infra.Mail;
 
-namespace Diary_Sample.Infra.Mail
+public interface IEmailSender
 {
-    public interface IEmailSender
-    {
-        public Task SendEmailAsync(string email, string name, string subject, string htmlMessage, string textMessage);
-    }
+    public Task SendEmailAsync(string email, string name, string subject, string htmlMessage, string textMessage);
 }
