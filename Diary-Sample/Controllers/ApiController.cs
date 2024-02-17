@@ -42,9 +42,9 @@ namespace Diary_Sample.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BadRequestResult), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Login(string email, string password, string deviceId)
+        public ActionResult<string> Login([FromBody] AuthModel model)
         {
-            IdentityUser user = await _userManager.FindByNameAsync(email).ConfigureAwait(false);
+            IdentityUser user = Task.Run(() => { return _userManager.FindByNameAsync(model.email).ConfigureAwait(false); }).Result.GetAwaiter().GetResult();
             if (user == null)
             {
                 return Unauthorized();
@@ -56,12 +56,18 @@ namespace Diary_Sample.Controllers
                 return Unauthorized();
             }
 
-            bool isPasswordOk = await _userManager.CheckPasswordAsync(user, password).ConfigureAwait(false);
+            bool isPasswordOk = Task.Run(() =>
+            {
+                return _userManager.CheckPasswordAsync(user, model.password).ConfigureAwait(false);
+            }).Result.GetAwaiter().GetResult();
             if (isPasswordOk)
             {
                 // 認証トークンを発行する
-                var roles = await _userManager.GetRolesAsync(user).ConfigureAwait(false);
-                var token = _jwtHandler.GenerateEncodedToken(user.UserName, deviceId, roles);
+                var roles = Task.Run(() =>
+                {
+                    return _userManager.GetRolesAsync(user).ConfigureAwait(false);
+                }).Result.GetAwaiter().GetResult();
+                var token = _jwtHandler.GenerateEncodedToken(user.UserName, model.deviceId, roles);
                 return Ok(token);
             }
 

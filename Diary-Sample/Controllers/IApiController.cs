@@ -21,9 +21,7 @@ namespace Diary_Sample.Controllers
         /// <remarks>
         /// モバイルアプリからログインするためのAPI
         /// </remarks>
-        /// <param name="email"></param>
-        /// <param name="password"></param>
-        /// <param name="deviceId"></param>
+        /// <param name="model"></param>
         /// <returns>認証トークン</returns>
         /// <response code="200">OK 認証トークン</response>
         /// <response code="401">NG 認証失敗</response>
@@ -31,7 +29,7 @@ namespace Diary_Sample.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BadRequestResult), StatusCodes.Status400BadRequest)]
-        public Task<IActionResult> Login(string email, string password, string deviceId);
+        public ActionResult<string> Login([FromBody] AuthModel model);
 
         /// <summary>
         /// 日記の情報一覧を取得する
