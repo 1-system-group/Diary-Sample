@@ -12,7 +12,7 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       REG_SUIT_CLIENT_ID: ${{ secrets.REG_SUIT_CLIENT_ID }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
       - name: db startup
@@ -22,7 +22,7 @@ jobs:
       - name: app startup
         run: docker run -d --name diary_sample_app_1 --network diary-sample_default -p 80:80 diary_sample_app_1
       - name: Entity Framework Core CLI Tool install
-        run: dotnet tool install --global dotnet-ef --version 3.1.8
+        run: dotnet tool install --global dotnet-ef --version 7.0.11
       - name: Install Cypress and run tests
         uses: cypress-io/github-action@v2
         with:

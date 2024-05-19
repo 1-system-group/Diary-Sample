@@ -3,12 +3,11 @@
 // Copyright (c) 1-system-group. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
-namespace Diary_Sample.Models
-{
-    public class ErrorViewModel
-    {
-        public string RequestId { get; set; } = string.Empty;
+namespace Diary_Sample.Models;
 
-        public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
-    }
+public class ErrorViewModel
+{
+    public string RequestId { get; set; } = string.Empty;
+
+    public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
 }

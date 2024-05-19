@@ -3,40 +3,34 @@
 // Copyright (c) 1-system-group. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
-
-using System.Collections.Generic;
-using System.Linq;
-using Diary_Sample.Entities;
 using Diary_Sample.Models;
-using Diary_Sample.Repositories;
 
-namespace Diary_Sample.Services
+namespace Diary_Sample.Services;
+
+public class ReferService : IReferService
 {
-    public class ReferService : IReferService
+    private readonly ISharedService _service;
+
+    public ReferService(ISharedService service)
     {
-        private readonly ISharedService _service;
+        _service = service;
+    }
 
-        public ReferService(ISharedService service)
+    public ReferViewModel? GetDiary(int id)
+    {
+        DiaryModel diary = _service.Diary(id);
+        if (diary == null)
         {
-            _service = service;
+            return null;
         }
 
-        public ReferViewModel? GetDiary(int id)
+        ReferViewModel? viewModel = new ReferViewModel
         {
-            DiaryModel diary = _service.Diary(id);
-            if (diary == null)
-            {
-                return null;
-            }
+            Id = diary.Id,
+            Title = diary.Title,
+            Content = diary.Content,
+        };
 
-            ReferViewModel? viewModel = new ReferViewModel
-            {
-                Id = diary.Id,
-                Title = diary.Title,
-                Content = diary.Content,
-            };
-
-            return viewModel;
-        }
+        return viewModel;
     }
 }

@@ -1,9 +1,9 @@
 #See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
-FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-buster-slim AS base
+FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
 WORKDIR /app
 
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS publish
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS publish
 WORKDIR "/src/Diary-Sample"
 COPY . .
 RUN dotnet build "Diary-Sample.csproj" -c Release -o /app/build
