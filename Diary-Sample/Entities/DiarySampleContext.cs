@@ -3,42 +3,40 @@
 // Copyright (c) 1-system-group. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
-using System;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace Diary_Sample.Entities
+namespace Diary_Sample.Entities;
+
+public partial class DiarySampleContext : IdentityDbContext
 {
-    public partial class DiarySampleContext : IdentityDbContext
+    public virtual DbSet<Diary>? diary { get; set; }
+    private readonly IConfiguration _config;
+
+    public DiarySampleContext(IConfiguration config)
     {
-        public virtual DbSet<Diary>? diary { get; set; }
-        private readonly IConfiguration _config;
+        _config = config;
+    }
 
-        public DiarySampleContext(IConfiguration config)
+    public static readonly ILoggerFactory MySQLLoggerFactory = LoggerFactory.Create(builder => { builder.AddConsole(); });
+    public static string getDBConnectionString(IConfiguration configuration)
+    {
+        var jawsDbUrl = Environment.GetEnvironmentVariable("JAWSDB_URL");
+        return string.IsNullOrEmpty(jawsDbUrl) ? configuration.GetConnectionString("DbConnectionString") : jawsDbUrl;
+    }
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        if (optionsBuilder == null)
         {
-            _config = config;
+            throw new System.Exception();
         }
-
-        public static readonly ILoggerFactory MySQLLoggerFactory = LoggerFactory.Create(builder => { builder.AddConsole(); });
-        public static string getDBConnectionString(IConfiguration configuration)
+        if (!optionsBuilder.IsConfigured)
         {
-            var jawsDbUrl = Environment.GetEnvironmentVariable("JAWSDB_URL");
-            return string.IsNullOrEmpty(jawsDbUrl) ? configuration.GetConnectionString("DbConnectionString") : jawsDbUrl;
-        }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (optionsBuilder == null)
-            {
-                throw new System.Exception();
-            }
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder
-                .UseLoggerFactory(MySQLLoggerFactory)
-                .UseMySQL(getDBConnectionString(_config));
-            }
+            optionsBuilder
+            .UseLoggerFactory(MySQLLoggerFactory)
+            .UseMySQL(getDBConnectionString(_config));
         }
     }
 }

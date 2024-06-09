@@ -3,13 +3,12 @@
 // Copyright (c) 1-system-group. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
-namespace Diary_Sample.Common
+namespace Diary_Sample.Common;
+
+public enum ResultType
 {
-    public enum ResultType
-    {
-        None = 0,
-        Normal,
-        Warning,
-        Error
-    }
+    None = 0,
+    Normal,
+    Warning,
+    Error
 }

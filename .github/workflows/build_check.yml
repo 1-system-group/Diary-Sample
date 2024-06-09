@@ -10,15 +10,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: 3.1.101
+        dotnet-version: 7.0
     - name: Install dotnet format
-      run: dotnet tool install -g dotnet-format
-    - name: format-check
-      run: dotnet format --check --verbosity q
+      run: dotnet tool install -g dotnet-format --version 5.1.250801
+    - name: format-check-whitespace
+      run: dotnet format whitespace --verify-no-changes --verbosity q
+    - name: format-check-style
+      run: dotnet format style --verify-no-changes --verbosity q
     - name: Install dependencies
       run: dotnet restore
     - name: Build
