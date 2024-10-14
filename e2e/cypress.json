@@ -1,5 +1,0 @@
-{
-  "projectId": "xxxxxx",
-  "baseUrl": "http://localhost",
-  "integrationFolder": "cypress/integration/diary-sample"
-}

@@ -56,4 +56,9 @@ public class PageViewModel
     {
         return NowPage + 1;
     }
+    // 画面に表示するか判定する
+    public bool isDisplay(int pageNumber)
+    {
+        return NowPage <= pageNumber && pageNumber < NowPage + 10;
+    }
 }

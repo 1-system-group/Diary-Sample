@@ -55,24 +55,39 @@ var item = Model.DiaryList[i];
             </form>
         </div>
         <div class="col-7">
-            <ul class="pagination justify-content-end">
-@if(Model.Page.existPrevPage()){
+            <ul class="pagination justify-content-end float-left">
                 <li class="page-item">
-                    <a class="page-link text-secondary" asp-controller="Menu" asp-action="Paging" asp-route-page=@Model.Page.getPrevPageNo()>&lt;&lt;</a>
+                    <a class="page-link text-secondary" asp-controller="Menu" asp-action="Paging" asp-route-page=1><</a>
                 </li>
-}
-@for(int i = 1; i < Model.Page.TotalPageNumber + 1; i++) {
-    @if (Model.Page.isNowPage(i)){
-                <li class="page-item"><a class="page-link theme" asp-controller="Menu" asp-action="Paging" asp-route-page=@i>@i</a></li>
-    } else {
-                <li class="page-item"><a class="page-link text-secondary" asp-controller="Menu" asp-action="Paging" asp-route-page=@i>@i</a></li>
-    }
-}
-@if(Model.Page.existNextPage()){
+                @if (Model.Page.existPrevPage())
+                {
+                    <li class="page-item">
+                        <a class="page-link text-secondary" asp-controller="Menu" asp-action="Paging" asp-route-page=@Model.Page.getPrevPageNo()>&lt;&lt;</a>
+                    </li>
+                }
+                @for (int i = 1; i < Model.Page.TotalPageNumber + 1; i++)
+                {
+                    @if (Model.Page.isDisplay(i))
+                    {
+                        @if (Model.Page.isNowPage(i))
+                        {
+                            <li class="page-item"><a class="page-link theme" asp-controller="Menu" asp-action="Paging" asp-route-page=@i>@i</a></li>
+                        }
+                        else
+                        {
+                            <li class="page-item"><a class="page-link text-secondary" asp-controller="Menu" asp-action="Paging" asp-route-page=@i>@i</a></li>
+                        }
+                    }
+                }
+                @if (Model.Page.existNextPage())
+                {
+                    <li class="page-item">
+                        <a class="page-link text-secondary" asp-controller="Menu" asp-action="Paging" asp-route-page=@Model.Page.getNextPageNo()>&gt;&gt;</a>
+                    </li>
+                }
                 <li class="page-item">
-                    <a class="page-link text-secondary" asp-controller="Menu" asp-action="Paging" asp-route-page=@Model.Page.getNextPageNo()>&gt;&gt;</a>
+                    <a class="page-link text-secondary" asp-controller="Menu" asp-action="Paging" asp-route-page=@Model.Page.TotalPageNumber>></a>
                 </li>
-}
             </ul>
         </div>
         <div class="col-4">

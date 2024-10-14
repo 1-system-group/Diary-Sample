@@ -189,7 +189,7 @@ app.UseAuthorization();
 
 // Swagger generator・Swagger UI middlewares
 app.UseOpenApi();
-app.UseSwaggerUi3();
+app.UseSwaggerUi();
 app.MapRazorPages();
 app.MapControllerRoute(
         name: "default",

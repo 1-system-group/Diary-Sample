@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   db:
-    image: mysql
+    image: mysql:8.0.39
     command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_bin
     restart: always
     environment:
