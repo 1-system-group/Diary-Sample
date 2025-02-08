@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   db:
-    image: mysql:8.0.39
+    image: mysql:8.0.35
     command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_bin
     restart: always
     environment:
@@ -18,7 +18,7 @@ services:
     ports:
     - 3306:3306
   redis:
-      image: redis
+      image: redis:7.2.4
       ports:
         - "6379:6379"
       # volumes:

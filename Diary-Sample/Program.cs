@@ -77,10 +77,30 @@ services.AddRazorPages(options =>
 });
 
 // Redis
-var redis = Environment.GetEnvironmentVariable("REDIS_URL");
-services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(
-    string.IsNullOrEmpty(redis) ? configuration.GetConnectionString("SessionConnectionString")
-    : redis.Split("@")[1] + ",password=" + redis.Split("@")[0].Split(":")[2]));
+var redisUrl = Environment.GetEnvironmentVariable("REDIS_URL") ?? configuration.GetConnectionString("SessionConnectionString");
+if (Uri.TryCreate(redisUrl, UriKind.Absolute, out _))
+{
+    var uri = new Uri(redisUrl);
+    var redisConfig = new ConfigurationOptions
+    {
+        EndPoints = { $"{uri.Host}:{uri.Port}" },
+        Password = uri.UserInfo.Split(':')[1],
+        Ssl = true,
+        AbortOnConnectFail = false,
+    };
+    redisConfig.CertificateValidation += (sender, cert, chain, sslPolicyErrors) => true;
+    services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(redisConfig));
+}
+else
+{
+    var redisConfig = new ConfigurationOptions
+    {
+        EndPoints = { $"{redisUrl}" },
+        AbortOnConnectFail = false,
+    };
+    services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(redisConfig));
+}
+
 services.AddScoped<RedisTicketStore>();
 services.AddDataProtection()
         .SetApplicationName("Diary_Sample.Infra")
