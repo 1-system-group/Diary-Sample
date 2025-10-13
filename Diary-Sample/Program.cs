@@ -60,7 +60,6 @@ else if (env.IsDevelopment())
 }
 
 // DBの接続
-var jawsDb = Environment.GetEnvironmentVariable("JAWSDB_URL");
 services.AddDbContext<DiarySampleContext>(options =>
     options.UseMySQL(getDBConnectionString(configuration)));
 
