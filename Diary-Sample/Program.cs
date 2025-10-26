@@ -157,6 +157,22 @@ services.AddAuthentication().AddJwtBearer(configureOptions =>
     };
 });
 
+// CORS設定
+var clientBaseUrl = Environment.GetEnvironmentVariable("CLIENT_BASE_URL") ?? configuration["ClientBaseUrl"] ?? throw new SystemException();
+var allowOrigin = "Diary-Sample-Frontend-Origin";
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(
+        name: allowOrigin,
+        policy =>
+        {
+            policy.WithOrigins(clientBaseUrl);
+            policy.WithHeaders("Content-Type");
+        }
+    );
+});
+
 // Swagger
 services.AddSwaggerDocument(config =>
 {
@@ -198,7 +214,7 @@ else
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-app.UseHttpsRedirection();
+app.UseCors(allowOrigin);
 app.UseStaticFiles();
 app.UseRouting();
 
