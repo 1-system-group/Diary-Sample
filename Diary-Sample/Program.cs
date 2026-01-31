@@ -207,6 +207,9 @@ var app = builder.Build();
 if (env.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
+    // Swagger generator・Swagger UI middlewares
+    app.UseOpenApi();
+    app.UseSwaggerUi();
 }
 else
 {
@@ -221,10 +224,6 @@ app.UseRouting();
 // 認証・認可
 app.UseAuthentication();
 app.UseAuthorization();
-
-// Swagger generator・Swagger UI middlewares
-app.UseOpenApi();
-app.UseSwaggerUi();
 app.MapRazorPages();
 app.MapControllerRoute(
         name: "default",

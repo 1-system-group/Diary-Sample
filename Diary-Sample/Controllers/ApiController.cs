@@ -35,6 +35,7 @@ public class ApiController : ControllerBase, IApiController
         _jwtHandler = jwtHandler;
     }
 
+    /// <inheritdoc />
     [AllowAnonymous]
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -73,6 +74,7 @@ public class ApiController : ControllerBase, IApiController
         return Unauthorized();
     }
 
+    /// <inheritdoc />
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [HttpGet("{page}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -80,11 +82,13 @@ public class ApiController : ControllerBase, IApiController
     public ActionResult<List<DiaryRow>> Lists(int page) =>
         page > 0 ? (ActionResult)Ok(_service.Lists(page)) : BadRequest();
 
+    /// <inheritdoc />
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public ActionResult<int> Counts() => Ok(_service.Counts());
 
+    /// <inheritdoc />
     [HttpGet("{id}")]
     [ProducesResponseType(typeof(DiaryModel), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(NotFoundResult), StatusCodes.Status404NotFound)]

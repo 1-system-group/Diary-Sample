@@ -46,6 +46,7 @@ public class ForgotPasswordApiController : ControllerBase, IForgotPasswordApiCon
         }
     }
 
+    /// <inheritdoc />
     [AllowAnonymous]
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
