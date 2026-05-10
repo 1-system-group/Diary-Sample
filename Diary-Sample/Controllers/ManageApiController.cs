@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Namotion.Reflection;
+using YamlDotNet.Serialization;
+using static Diary_Sample.Common.ResultType;
 
 namespace Diary_Sample.Controllers
 {
@@ -65,6 +67,72 @@ namespace Diary_Sample.Controllers
             string json = JsonSerializer.Serialize(new { manageViewModel.Users, manageViewModel.Page });
             return Ok(json);
 
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BadRequestResult), StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> Create([FromBody] CreateAccountViewModel model)
+        {
+            if (model == null)
+            {
+                string notification = "想定外のエラーです。";
+                string json = JsonSerializer.Serialize(new { notification, Error });
+                return BadRequest(json);
+            }
+
+            if (!ModelState.IsValid)
+            {
+                string json = JsonSerializer.Serialize(new { model.Notification, model.NotificationType });
+                return Ok(json);
+            }
+
+            var user = new IdentityUser
+            {
+                UserName = model.Email,
+                Email = model.Email,
+                PhoneNumber = model.PhoneNumber,
+                // FIXME メール認証を作成したら消す
+                EmailConfirmed = true,
+            };
+
+            if (model.Password1 != model.Password2)
+            {
+                // パスワード不一致エラー
+                model.Notification = "パスワードとパスワード（再入力）が不一致です。";
+                model.NotificationType = Error;
+                string json = JsonSerializer.Serialize(new { model.Notification, model.NotificationType });
+                return Ok(json);
+            }
+
+            IdentityResult result = await _userManager.PasswordValidators[0].ValidateAsync(_userManager, user, model.Password1).ConfigureAwait(false);
+            if (result != IdentityResult.Success)
+            {
+                // パスワードエラー
+                model.Notification = "パスワードが不正です。";
+                model.NotificationType = Error;
+                string json = JsonSerializer.Serialize(new { model.Notification, model.NotificationType });
+                return Ok(json);
+            }
+
+            // アカウント登録
+            result = await _userManager.CreateAsync(user, model.Password1).ConfigureAwait(false);
+            if (result == IdentityResult.Success)
+            {
+                model.Notification = "登録が完了しました。";
+                model.NotificationType = Normal;
+                string json = JsonSerializer.Serialize(new { model.Notification, model.NotificationType });
+                return Ok(json);
+            }
+            else
+            {
+                // 登録失敗
+                model.Notification = "入力されたアカウントはすでに登録されています。";
+                model.NotificationType = Error;
+                string json = JsonSerializer.Serialize(new { model.Notification, model.NotificationType });
+                return Ok(json);
+            }
         }
     }
 }
