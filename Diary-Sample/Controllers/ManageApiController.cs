@@ -5,8 +5,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Namotion.Reflection;
-using YamlDotNet.Serialization;
 using static Diary_Sample.Common.ResultType;
 
 namespace Diary_Sample.Controllers
