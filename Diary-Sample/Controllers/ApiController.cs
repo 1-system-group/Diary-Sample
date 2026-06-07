@@ -89,6 +89,7 @@ public class ApiController : ControllerBase, IApiController
     public ActionResult<int> Counts() => Ok(_service.Counts());
 
     /// <inheritdoc />
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [HttpGet("{id}")]
     [ProducesResponseType(typeof(DiaryModel), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(NotFoundResult), StatusCodes.Status404NotFound)]
