@@ -39,6 +39,7 @@ public interface IApiController
     /// <returns>日記の情報リスト</returns>
     /// <response code="200">OK 日記の情報リスト</response>
     /// <response code="400">NG 不正なページ指定</response>
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [HttpGet("{page}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(BadRequestResult), StatusCodes.Status400BadRequest)]
