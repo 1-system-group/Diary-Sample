@@ -24,7 +24,6 @@ public class ResetPasswordApiController : ControllerBase, IResetPasswordApiContr
     private readonly ILogger<ResetPasswordApiController> _logger;
     private readonly UserManager<IdentityUser> _userManager;
     private readonly IConfiguration _configuration;
-    private readonly string _clientBaseUrl;
     public ResetPasswordApiController(
         ILogger<ResetPasswordApiController> logger,
         UserManager<IdentityUser> userManager,
@@ -33,14 +32,6 @@ public class ResetPasswordApiController : ControllerBase, IResetPasswordApiContr
         _logger = logger;
         _userManager = userManager;
         _configuration = configuration;
-
-        _clientBaseUrl = Environment.GetEnvironmentVariable("CLIENT_BASE_URL") ?? _configuration["ClientBaseUrl"];
-        if (string.IsNullOrEmpty(_clientBaseUrl))
-        {
-            _logger.LogError("_clientBaseUrl is not configured");
-            throw new System.Exception();
-        }
-
     }
 
     /// <inheritdoc />
