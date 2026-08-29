@@ -5,6 +5,7 @@
 // -----------------------------------------------------------------------
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
@@ -32,6 +33,10 @@ public partial class DiarySampleContext : IdentityDbContext
         {
             throw new System.Exception();
         }
+        // MySQLプロバイダの既定の型マッピング変更により、エンティティを変更していなくても
+        // モデルとスナップショットに差分が出る（text→longtext等）。既存スキーマのまま運用するため警告を抑制する
+        optionsBuilder.ConfigureWarnings(warnings => warnings.Ignore(RelationalEventId.PendingModelChangesWarning));
+
         if (!optionsBuilder.IsConfigured)
         {
             optionsBuilder

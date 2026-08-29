@@ -14,9 +14,7 @@ jobs:
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 8.0
-    - name: Install dotnet format
-      run: dotnet tool install -g dotnet-format --version 5.1.250801
+        dotnet-version: 10.0
     - name: format-check-whitespace
       run: dotnet format whitespace --verify-no-changes --verbosity q
     - name: format-check-style
