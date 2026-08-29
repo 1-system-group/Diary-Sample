@@ -33,6 +33,8 @@ public class UserViewModel
     public bool LockOut { get; } = default;
     public int AccessFailedCount { get; } = default;
 
+    public string DisplayLockOutDateTime => getDisplayLockOutDateTime();
+
     // ロック解除時間（表示用）を取得する
     public string getDisplayLockOutDateTime()
     {
