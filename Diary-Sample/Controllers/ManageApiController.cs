@@ -9,9 +9,7 @@ using static Diary_Sample.Common.ResultType;
 
 namespace Diary_Sample.Controllers
 {
-
-    // TODO 認証はいったん無しにしておく 
-    //    [Authorize(Roles = "manager")]
+    [Authorize(Roles = "manager")]
     [ApiController]
     [Route("api/v1/[controller]/[action]")]
     [Produces("application/json")]
@@ -83,7 +81,7 @@ namespace Diary_Sample.Controllers
             if (!ModelState.IsValid)
             {
                 string json = JsonSerializer.Serialize(new { model.Notification, model.NotificationType });
-                return Ok(json);
+                return BadRequest(json);
             }
 
             var user = new IdentityUser
@@ -101,7 +99,7 @@ namespace Diary_Sample.Controllers
                 model.Notification = "パスワードとパスワード（再入力）が不一致です。";
                 model.NotificationType = Error;
                 string json = JsonSerializer.Serialize(new { model.Notification, model.NotificationType });
-                return Ok(json);
+                return BadRequest(json);
             }
 
             IdentityResult result = await _userManager.PasswordValidators[0].ValidateAsync(_userManager, user, model.Password1).ConfigureAwait(false);
@@ -111,7 +109,7 @@ namespace Diary_Sample.Controllers
                 model.Notification = "パスワードが不正です。";
                 model.NotificationType = Error;
                 string json = JsonSerializer.Serialize(new { model.Notification, model.NotificationType });
-                return Ok(json);
+                return BadRequest(json);
             }
 
             // アカウント登録
@@ -129,7 +127,7 @@ namespace Diary_Sample.Controllers
                 model.Notification = "入力されたアカウントはすでに登録されています。";
                 model.NotificationType = Error;
                 string json = JsonSerializer.Serialize(new { model.Notification, model.NotificationType });
-                return Ok(json);
+                return BadRequest(json);
             }
         }
     }
